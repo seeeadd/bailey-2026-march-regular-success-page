@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>You're In! — AI Challenge Confirmation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap" rel="stylesheet" />
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,600,700,800,900&display=swap" rel="stylesheet" />
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+@font-face{font-family:'Ogg';src:url('public/OggRoman.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Ogg';src:url('public/OggBold.ttf') format('truetype');font-weight:700;font-style:normal;font-display:swap}
+
+:root{
+  --cream:#F4FAFA;--warm:#E8F3F1;--dark:#122C2C;--coral:#E07A5F;--coral-dark:#C45D45;
+  --teal:#1D6B6B;--teal-dark:#165858;--teal-light:#238787;--gold:#D4A853;--border:#C8DDD9;
+  --font:'Satoshi','DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;
+  --display:'Ogg',Georgia,serif;--accent:'Caveat',cursive;
+}
+body{font-family:var(--font);font-weight:500;color:#1e3a3a;background:var(--cream);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}a{color:inherit;text-decoration:none}
+
+.pg{width:100%;overflow-x:hidden}
+
+/* ═══ HERO ═══ */
+.hero{position:relative;padding:32px 24px 24px;background:var(--dark);overflow:hidden}
+
+.logo-bar{max-width:1200px;margin:0 auto 18px;padding:0 24px;display:flex;align-items:center;gap:10px;position:relative;z-index:2}
+.logo-icon{width:36px;height:36px;flex-shrink:0}
+.logo-text{font-family:var(--display);font-size:16px;font-weight:700;color:#faf8f5;letter-spacing:.06em;text-transform:uppercase;line-height:1.2}
+.logo-text span{display:block;font-size:22px;letter-spacing:.1em}
+
+.hero-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:36px;align-items:center;max-width:1200px;margin:0 auto;padding:0 24px;position:relative;z-index:2}
+.hero-left{padding:8px 0;text-align:center}
+.hero-welcome{font-size:17px;color:#8fb8b8;margin-bottom:12px}
+.hero-h{font-family:var(--display);font-size:clamp(32px,4.5vw,52px);font-weight:700;line-height:1.1;color:#faf8f5;margin-bottom:22px}
+.hero-h em{font-style:italic;color:var(--gold)}
+.hero-sub{font-size:17px;line-height:1.65;color:#8fb8b8;margin-bottom:16px}
+.hero-sub strong{color:#faf8f5;font-weight:700}
+/* Arrow pointing right toward video */
+.hero-arrow{display:none}
+
+.hero-right{position:relative}
+/* Coral banner above video */
+.sound-banner{display:flex;align-items:center;justify-content:center;gap:8px;padding:11px 20px;background:var(--coral);color:#fff;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;border-radius:12px 12px 0 0;text-align:center}
+/* Click-to-unmute strip inside video */
+.click-sound{display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 14px;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);font-size:11px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.06em;position:absolute;top:0;left:0;right:0;z-index:6;animation:soundPulse 2s ease-in-out infinite}
+.click-sound svg{flex-shrink:0;animation:soundWave 1.5s ease-in-out infinite}
+/* Video container */
+.video-wrap{position:relative;width:100%;aspect-ratio:16/9;background:#0a0a0a;overflow:hidden;cursor:pointer;border-radius:0 0 12px 12px;border:2px solid rgba(255,255,255,.08);border-top:none}
+.video-wrap iframe{width:100%;height:100%;border:none}
+.play-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:72px;height:72px;background:rgba(224,122,95,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;border:3px solid rgba(255,255,255,.3);transition:all .3s;z-index:5;box-shadow:0 8px 32px rgba(224,122,95,.4),0 0 60px rgba(224,122,95,.15);animation:playPulse 2s ease-in-out infinite}
+.play-btn:hover{background:rgba(224,122,95,1);transform:translate(-50%,-50%) scale(1.1);box-shadow:0 12px 44px rgba(224,122,95,.5)}
+.play-btn svg{margin-left:3px}
+.video-wrap.playing .play-btn{opacity:0;pointer-events:none}
+.video-wrap.playing .click-sound{opacity:0;pointer-events:none}
+
+/* ═══ READ THIS BOX ═══ */
+.readthis{padding:32px 24px 36px;background:var(--warm)}
+.readthis-card{max-width:880px;margin:0 auto;padding:28px 44px;background:var(--dark);border-radius:14px;text-align:center}
+.readthis-h{font-family:var(--display);font-size:clamp(22px,3vw,30px);font-weight:700;line-height:1.25;color:#faf8f5;margin-bottom:10px}
+.readthis-h em{font-style:italic;color:var(--gold)}
+.readthis-p{font-size:14px;line-height:1.7;color:#9ac0be;max-width:640px;margin:0 auto}
+
+/* ═══ NEXT STEPS ═══ */
+.steps{padding:28px 24px 40px;background:var(--dark);position:relative}
+.steps-grid{display:grid;grid-template-columns:160px 1fr;gap:40px;max-width:1000px;margin:0 auto;position:relative;z-index:2}
+
+/* Left brand badge column */
+.steps-badge{text-align:center;padding-top:12px}
+.steps-badge-icon{width:52px;height:52px;margin:0 auto 14px}
+.steps-badge-name{font-family:var(--display);font-size:26px;font-weight:700;color:#faf8f5;line-height:1.15;margin-bottom:6px}
+.steps-badge-sub{font-family:var(--accent);font-size:19px;color:var(--teal-light);font-style:italic}
+
+/* Right content */
+.steps-content{}
+.steps-eyebrow{font-size:14px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--teal-light);margin-bottom:8px}
+.steps-h{font-family:var(--display);font-size:clamp(28px,3.8vw,42px);font-weight:700;color:#faf8f5;line-height:1.12;margin-bottom:28px;padding-bottom:18px;border-bottom:1px solid rgba(255,255,255,.1)}
+
+/* Step connector arrow between blocks */
+.step-arrow{display:flex;flex-direction:column;align-items:center;padding:4px 0;opacity:.35}
+.step-arrow-line{width:2px;height:16px;background:linear-gradient(180deg,rgba(255,255,255,.3),rgba(255,255,255,.15))}
+.step-arrow svg{display:block}
+
+/* Step blocks — actionable cards */
+.step-block{margin-bottom:0;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:22px 26px;transition:border-color .3s}
+.step-block:hover{border-color:rgba(35,135,135,.4)}
+.step-num{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:var(--teal);color:#fff;font-family:var(--font);font-size:14px;font-weight:800;flex-shrink:0}
+.step-header{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+.step-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:linear-gradient(135deg,rgba(35,135,135,.25),rgba(29,107,107,.15));border:1px solid rgba(35,135,135,.3)}
+.step-title{font-family:var(--display);font-size:24px;font-weight:700;color:#faf8f5;line-height:1.25}
+.step-urgency{display:inline-block;font-family:var(--font);font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--coral);background:rgba(224,122,95,.12);padding:4px 10px;border-radius:20px;margin-bottom:10px}
+.step-desc{font-size:15px;line-height:1.7;color:#8fb8b8;margin-bottom:16px}
+
+/* Calendar icon row — urgent clickable buttons */
+.cal-icons{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.cal-icon{display:flex;align-items:center;gap:8px;padding:10px 18px;background:linear-gradient(135deg,rgba(35,135,135,.2),rgba(29,107,107,.12));border:2px solid rgba(35,135,135,.4);border-radius:10px;transition:all .25s;cursor:pointer;text-decoration:none;color:#faf8f5;font-size:13px;font-weight:700;font-family:var(--font)}
+.cal-icon:hover{background:linear-gradient(135deg,#2a8a8a,#1D6B6B);border-color:var(--teal-light);transform:translateY(-3px);box-shadow:0 6px 20px rgba(29,107,107,.4)}
+.cal-icon svg{width:20px;height:20px;flex-shrink:0}
+.cal-or{font-size:12px;color:#6a9e9e;margin-bottom:6px}
+
+/* Date */
+.date-line{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:700;color:#faf8f5;margin-bottom:14px}
+.date-line svg{flex-shrink:0}
+
+/* Challenge label + checks */
+.challenge-label{font-size:15px;font-weight:800;color:#faf8f5;margin-bottom:10px}
+.check-list{list-style:none;padding:0;margin:0 0 8px;display:flex;flex-direction:column;gap:4px}
+.check-item{display:flex;align-items:flex-start;gap:8px;font-size:14px;line-height:1.55;color:#b8d8d8;padding:3px 0}
+.check-item svg{flex-shrink:0;margin-top:2px}
+
+/* Step 2 — Community */
+.community-note{font-size:14px;font-weight:700;color:#8fb8b8;margin-bottom:10px}
+.community-note strong{color:#faf8f5}
+.community-p{font-size:14px;line-height:1.65;color:#8fb8b8;margin-bottom:10px}
+.community-p strong{color:#faf8f5;font-weight:700}
+
+/* CTA base */
+.cta{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:16px 32px;font-family:var(--font);font-size:17px;font-weight:800;border:none;border-radius:14px;cursor:pointer;transition:all .35s cubic-bezier(.34,1.56,.64,1);letter-spacing:-.01em;z-index:1;overflow:hidden;text-align:center;line-height:1.2;text-decoration:none}
+/* Glassmorphic teal gradient */
+.cta-g{background:linear-gradient(135deg,#2a8a8a,#1D6B6B 40%,#165858);color:#fff;box-shadow:0 6px 24px rgba(29,107,107,.35),inset 0 2px 0 rgba(255,255,255,.2),inset 0 -2px 0 rgba(0,0,0,.1);border:2px solid rgba(255,255,255,.15);animation:ctaPulse 3s ease-in-out infinite}
+.cta-g::before{content:'';position:absolute;inset:-4px;border-radius:18px;background:linear-gradient(135deg,rgba(255,255,255,.4),rgba(29,107,107,.15) 50%,rgba(255,255,255,.25));backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.2);z-index:-1;opacity:.6;transition:opacity .3s}
+.cta-g::after{content:'';position:absolute;top:50%;left:-7px;width:14px;height:14px;border-radius:50%;transform:translateY(-50%);background:var(--notch-bg,var(--dark));pointer-events:none}
+.notch-r{position:absolute;top:50%;right:-7px;width:14px;height:14px;border-radius:50%;transform:translateY(-50%);background:var(--notch-bg,var(--dark));pointer-events:none}
+.cta-g:hover{transform:translateY(-4px) scale(1.04);box-shadow:0 10px 44px rgba(29,107,107,.5),0 0 60px rgba(29,107,107,.15),inset 0 2px 0 rgba(255,255,255,.2)}
+.cta-g:hover::before{opacity:1}
+.cta-g:active{transform:translateY(0) scale(.96)}
+/* Glitter shimmer */
+.cta-glitter{position:absolute;top:-20%;bottom:-20%;width:25%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08) 20%,rgba(255,255,255,.25) 50%,rgba(255,255,255,.08) 80%,transparent);filter:blur(8px);animation:glitterSweep 4s ease-in-out infinite;pointer-events:none;z-index:2;border-radius:50%}
+.cta-glitter-2{position:absolute;top:-10%;bottom:-10%;width:15%;background:linear-gradient(90deg,transparent,rgba(212,168,83,.15) 40%,rgba(255,255,255,.2) 50%,rgba(212,168,83,.15) 60%,transparent);filter:blur(6px);animation:glitterSweep 4s ease-in-out infinite 1.8s;pointer-events:none;z-index:2;border-radius:50%}
+/* Ticket icon bounce */
+.ticket-i{display:inline-flex;align-items:center;flex-shrink:0;animation:ticketBounce 2s ease-in-out infinite}
+.cta-sub{display:block;font-size:12px;font-weight:500;opacity:.85;margin-top:2px;letter-spacing:.04em;line-height:1.3;white-space:nowrap}
+.cta svg{flex-shrink:0}
+
+/* VIP premium block inside steps */
+.step-vip{margin-bottom:0;background:linear-gradient(135deg,rgba(212,168,83,.08),rgba(212,168,83,.03));border:2px solid rgba(212,168,83,.3);position:relative;overflow:visible}
+.step-vip:hover{border-color:rgba(212,168,83,.55)}
+.step-vip .step-num{background:linear-gradient(135deg,#D4A853,#C49A3E);color:#1A1816}
+.step-vip .step-icon{background:linear-gradient(135deg,rgba(212,168,83,.2),rgba(212,168,83,.1));border-color:rgba(212,168,83,.3)}
+.vip-crown{position:absolute;top:-14px;right:20px;display:flex;align-items:center;gap:6px;padding:5px 14px;background:linear-gradient(135deg,#D4A853,#C49A3E);border-radius:20px;font-family:var(--font);font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#1A1816;box-shadow:0 4px 16px rgba(212,168,83,.35)}
+.vip-p{font-size:14px;line-height:1.65;color:#8fb8b8;margin-bottom:10px}
+.vip-p strong{color:#faf8f5;font-weight:700}
+.vip-p strong u{text-decoration:underline;text-decoration-color:var(--gold)}
+
+/* Full-width CTA — gold variant */
+.cta-full{display:block;width:100%;padding:18px 28px;font-family:var(--font);font-size:17px;font-weight:800;border:none;border-radius:12px;cursor:pointer;text-align:center;line-height:1.15;letter-spacing:-.01em;background:linear-gradient(135deg,#D4A853,#C49A3E 60%,#B8903A);color:#1A1816;box-shadow:0 6px 24px rgba(212,168,83,.35);animation:vipPulse 3s ease-in-out infinite;transition:all .35s cubic-bezier(.34,1.56,.64,1);position:relative;overflow:hidden;text-decoration:none;margin-top:14px}
+.cta-full:hover{transform:translateY(-4px) scale(1.02);box-shadow:0 10px 44px rgba(212,168,83,.5)}
+.cta-full .cta-sub{display:block;font-size:12px;font-weight:600;opacity:.75;margin-top:2px;letter-spacing:0}
+
+/* ═══ FOOTER ═══ */
+.footer{padding:32px 24px 40px;background:var(--dark);text-align:center}
+.footer-logo{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:16px}
+.footer-logo-text{font-family:var(--display);font-size:14px;font-weight:700;color:#faf8f5;letter-spacing:.06em;text-transform:uppercase;line-height:1.2}
+.footer-logo-text span{display:block;font-size:17px;letter-spacing:.1em}
+.f-copy{font-size:13px;color:#6a9e9e;margin-bottom:10px}
+.f-links{display:flex;justify-content:center;gap:16px;margin-bottom:24px}
+.f-links a{font-size:13px;color:#6a9e9e;transition:color .2s}
+.f-links a:hover{color:#faf8f5}
+.f-disclaimer{font-size:11px;line-height:1.7;color:#4a7a7a;max-width:720px;margin:0 auto;text-align:center}
+.f-disclaimer strong{color:#7ab0b0}
+
+/* ═══ ANIMATIONS ═══ */
+@keyframes ctaPulse{0%,100%{box-shadow:0 6px 20px rgba(29,107,107,.4),0 12px 32px rgba(29,107,107,.2),inset 0 1px 0 rgba(255,255,255,.25)}50%{box-shadow:0 8px 30px rgba(29,107,107,.55),0 16px 44px rgba(29,107,107,.3),inset 0 1px 0 rgba(255,255,255,.3),0 0 50px rgba(29,107,107,.15)}}
+@keyframes ticketBounce{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-2px) rotate(3deg)}}
+@keyframes glitterSweep{0%{left:-30%;opacity:0}15%{opacity:.6}50%{opacity:.3}85%{opacity:.6}100%{left:130%;opacity:0}}
+@keyframes vipPulse{0%,100%{box-shadow:0 6px 20px rgba(212,168,83,.35),inset 0 1px 0 rgba(255,255,255,.3)}50%{box-shadow:0 8px 30px rgba(212,168,83,.5),0 0 40px rgba(212,168,83,.12),inset 0 1px 0 rgba(255,255,255,.4)}}
+
+@keyframes soundPulse{0%,100%{background:rgba(0,0,0,.7)}50%{background:rgba(0,0,0,.85)}}
+@keyframes soundWave{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+@keyframes playPulse{0%,100%{box-shadow:0 8px 32px rgba(224,122,95,.4),0 0 0 0 rgba(224,122,95,.3)}50%{box-shadow:0 8px 32px rgba(224,122,95,.4),0 0 0 16px rgba(224,122,95,0)}}
+
+/* Confetti canvas */
+#confetti-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:768px){
+  .hero{padding:24px 16px 28px}
+  .hero-grid{grid-template-columns:1fr;gap:20px}
+  .hero-left{text-align:center}
+  .hero-right{order:-1}
+  .steps-grid{grid-template-columns:1fr}
+  .steps-badge{display:flex;align-items:center;gap:12px;text-align:left;padding-top:0;margin-bottom:-8px}
+  .steps-badge-icon{margin:0}
+  .readthis{padding:24px 16px 28px}
+  .readthis-card{padding:22px 18px}
+  .cal-icons{flex-wrap:wrap}
+}
+@media(max-width:480px){
+  .hero{padding:18px 12px 24px}
+  .hero-h{font-size:clamp(22px,6vw,32px)}
+  .sound-banner{font-size:10px;padding:6px 10px}
+  .readthis{padding:20px 12px 24px}
+  .readthis-card{padding:18px 14px}
+  .steps{padding:28px 14px 36px}
+  .step-block{padding:18px 18px}
+  .cta{padding:14px 22px;font-size:14px}
+  .cta-full{padding:14px 20px;font-size:14px}
+  .cal-icon{padding:8px 12px;font-size:11px}
+}
+</style>
+</head>
+<body>
+<canvas id="confetti-canvas"></canvas>
+<div class="pg">
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="logo-bar">
+    <svg class="logo-icon" viewBox="0 0 40 40" fill="none">
+      <circle cx="20" cy="20" r="18" stroke="var(--teal-light)" stroke-width="2" fill="none"/>
+      <path d="M14 26l6-16 6 16" stroke="var(--gold)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M16 22h8" stroke="var(--gold)" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="20" cy="8" r="2" fill="var(--teal-light)"/>
+    </svg>
+    <div class="logo-text">AI<span>Challenge</span></div>
+  </div>
+
+  <div class="hero-grid">
+    <div class="hero-left">
+      <p class="hero-welcome">Welcome To The AI Challenge!</p>
+      <h1 class="hero-h">Congratulations, <em>You're In!</em> Your Seat Is Confirmed And Your Welcome Email Is On Its Way</h1>
+      <p class="hero-sub">Now, Watch This Quick Welcome Video And Then Follow The Easy Steps Below To <strong>Get The Most Out Of The Event!</strong></p>
+      <p style="font-family:var(--accent);font-size:22px;color:var(--coral);margin-top:8px">Watch this first! &darr;</p>
+    </div>
+    <div class="hero-right">
+      <div class="sound-banner">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z"/></svg>
+        Turn On Your Sound &amp; Watch The Video Below!
+      </div>
+      <div class="video-wrap" id="videoWrap" onclick="handleVideoClick()">
+        <div class="click-sound">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+          Click To Turn On Sound
+        </div>
+        <div class="play-btn" id="playBtn">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="#fff"><polygon points="8,5 20,12 8,19"/></svg>
+        </div>
+        <iframe id="videoFrame" src="" allow="autoplay; encrypted-media" allowfullscreen style="display:none"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ READ THIS ═══ -->
+<section class="readthis">
+  <div class="readthis-card">
+    <h2 class="readthis-h">Read This <em>Before</em> You Leave This Page</h2>
+    <p class="readthis-p">Please Check Your Email Inbox For An Important Message Regarding The AI Challenge. (If you upgraded to VIP, then you will receive a separate email with your upgraded access to the event.)</p>
+  </div>
+</section>
+
+<!-- ═══ WARM→DARK CURVE ═══ -->
+<div style="background:var(--dark);line-height:0;margin-top:-1px">
+  <svg viewBox="0 0 1440 50" preserveAspectRatio="none" style="display:block;width:100%;height:50px">
+    <path d="M0 0 L1440 0 L1440 0 Q1080 50 720 25 Q360 0 0 30 Z" fill="var(--warm)"/>
+  </svg>
+</div>
+
+<!-- ═══ NEXT STEPS — 2-column ═══ -->
+<section class="steps">
+  <div class="steps-grid">
+    <!-- Left: brand badge -->
+    <div class="steps-badge">
+      <svg class="steps-badge-icon" viewBox="0 0 40 40" fill="none">
+        <circle cx="20" cy="20" r="18" stroke="var(--teal-light)" stroke-width="1.5" fill="none"/>
+        <path d="M14 26l6-16 6 16" stroke="var(--gold)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M16 22h8" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="20" cy="8" r="2" fill="var(--teal-light)"/>
+      </svg>
+      <div class="steps-badge-name">AI<br>Challenge</div>
+      <div class="steps-badge-sub">The proof you need.</div>
+    </div>
+
+    <!-- Right: content -->
+    <div class="steps-content">
+      <div class="steps-eyebrow">Getting Started</div>
+      <h2 class="steps-h">Here Are Your Next Steps</h2>
+
+      <!-- Step 1: Calendar -->
+      <div class="step-block">
+        <div class="step-header">
+          <div class="step-num">1</div>
+          <div class="step-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--teal-light)" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M12 14l-2 2 2 2"/></svg>
+          </div>
+          <h3 class="step-title">Mark Your Calendar &amp; Set Your Alarms</h3>
+        </div>
+        <span class="step-urgency">Do This Right Now</span>
+        <p class="step-desc">Don't leave this page without doing this — add the AI Challenge to your calendar so nothing gets in the way of showing up live every single day.</p>
+
+        <p style="font-size:13px;font-weight:700;color:#faf8f5;margin-bottom:8px">Add it to your calendar now — pick one:</p>
+        <div class="cal-icons">
+          <a href="#" class="cal-icon">
+            <svg viewBox="0 0 24 24" fill="#fff"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            Apple
+          </a>
+          <a href="#" class="cal-icon">
+            <svg viewBox="0 0 24 24" fill="#fff"><path d="M19.5 3.5h-15A1 1 0 0 0 3.5 4.5v15a1 1 0 0 0 1 1h15a1 1 0 0 0 1-1v-15a1 1 0 0 0-1-1zm-8.75 13.13l-3.13-3.13 1.06-1.06 2.07 2.07 4.07-4.07 1.06 1.06z"/></svg>
+            Google
+          </a>
+          <a href="#" class="cal-icon">
+            <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="16" rx="2" fill="none" stroke="#fff" stroke-width="1.5"/><path d="M3 8l9 5 9-5" fill="none" stroke="#fff" stroke-width="1.5"/></svg>
+            Outlook
+          </a>
+        </div>
+
+        <p class="cal-or">...Or add it manually:</p>
+
+        <div class="date-line">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--teal-light)" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          March 11th - 15th, 2026 @ 10AM PT / 1PM ET
+        </div>
+
+        <p class="challenge-label">This is a FREE 5-day LIVE challenge where you'll:</p>
+
+        <ul class="check-list">
+          <li class="check-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="4" fill="var(--teal)"/><polyline points="7 12 10 15 17 9" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Discover the shortest path to earning your first "comma" ($1,000 in online sales)
+          </li>
+          <li class="check-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="4" fill="var(--teal)"/><polyline points="7 12 10 15 17 9" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Learn exactly what's been holding you back from making your first sale
+          </li>
+          <li class="check-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="4" fill="var(--teal)"/><polyline points="7 12 10 15 17 9" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Get a simple, step-by-step action plan you can follow (even with zero tech skills)
+          </li>
+          <li class="check-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="4" fill="var(--teal)"/><polyline points="7 12 10 15 17 9" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Walk away with the PROOF you need to finally say, "I can actually do this!"
+          </li>
+        </ul>
+      </div>
+
+      <!-- Arrow 1→2 -->
+      <div class="step-arrow">
+        <div class="step-arrow-line"></div>
+        <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 1l6 7 6-7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+
+      <!-- Step 2: Community -->
+      <div class="step-block">
+        <div class="step-header">
+          <div class="step-num">2</div>
+          <div class="step-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--teal-light)" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3 class="step-title">Join The Free AI Challenge Community</h3>
+        </div>
+        <span class="step-urgency">Don't Skip This</span>
+        <p class="community-note">This is <strong>NOT</strong> a Facebook group. This is a private group unlike anything you've experienced before...</p>
+        <p class="community-p">In this NEW community, <strong>you'll be surrounded with other like-minded people</strong> who are on the same journey as you! You'll be able to connect, learn from others, and get the latest AI Challenge updates.</p>
+        <p class="community-p">Inside, <strong>you'll also receive fun "pre-event posts"</strong> from me to help you get in the right mindset for the event, as well as other free bonuses – just for showing up!!</p>
+
+        <div style="margin-top:12px">
+          <a href="#" class="cta cta-g" style="--notch-bg:var(--dark)">
+            <svg class="ticket-i" width="28" height="22" viewBox="0 0 22 18" fill="none">
+              <rect x="1" y="1" width="20" height="16" rx="3" fill="#D4A853" opacity=".9"/>
+              <rect x="1" y="1" width="20" height="16" rx="3" stroke="#fff" stroke-width="1.2" opacity=".5"/>
+              <line x1="6" y1="1" x2="6" y2="17" stroke="#fff" stroke-width="1" stroke-dasharray="2 2" opacity=".3"/>
+              <line x1="16" y1="1" x2="16" y2="17" stroke="#fff" stroke-width="1" stroke-dasharray="2 2" opacity=".3"/>
+              <path d="M11 5L12.1 7.8L15 8.2L12.8 10.1L13.5 13L11 11.5L8.5 13L9.2 10.1L7 8.2L9.9 7.8Z" fill="#fff" opacity=".9"/>
+            </svg>
+            <span>Join The Free Community Now<span class="cta-sub">Click here to get instant access</span></span>
+            <span class="notch-r" style="background:var(--dark)"></span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Arrow 2→3 -->
+      <div class="step-arrow">
+        <div class="step-arrow-line"></div>
+        <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 1l6 7 6-7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+
+      <!-- Step 3: VIP Upgrade — premium block -->
+      <div class="step-block step-vip">
+        <div class="vip-crown">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#1A1816"><path d="M2 20h20V18H2v2zM4 15l4-7 4 4 4-5 4 8H4z"/></svg>
+          VIP Upgrade
+        </div>
+        <div class="step-header">
+          <div class="step-num">3</div>
+          <div class="step-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <h3 class="step-title">Upgrade To VIP For 10x Results</h3>
+        </div>
+        <span class="step-urgency" style="color:var(--gold);background:rgba(212,168,83,.12)">P.S. It's Not Too Late</span>
+        <p class="vip-p"><strong>Get a full 14-day trial of ClickFunnels</strong> (the #1 funnel-building platform in the world) so you can actually BUILD what you learn during the challenge.</p>
+        <p class="vip-p">Plus, unlock additional bonuses to help you build funnels in minutes instead of weeks, <strong>so you can get <u>real results 10x faster</u> than going at it alone.</strong></p>
+        <a href="#" class="cta-full">
+          Upgrade To VIP Now!
+          <span class="cta-sub">Get 14-Day ClickFunnels Trial + Bonus Training</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+  <div class="footer-logo">
+    <svg width="28" height="28" viewBox="0 0 40 40" fill="none">
+      <circle cx="20" cy="20" r="18" stroke="var(--teal-light)" stroke-width="1.5" fill="none"/>
+      <path d="M14 26l6-16 6 16" stroke="var(--gold)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M16 22h8" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round"/>
+      <circle cx="20" cy="8" r="2" fill="var(--teal-light)"/>
+    </svg>
+    <div class="footer-logo-text">AI<span>Challenge</span></div>
+  </div>
+  <div class="f-copy">Etison LLC - &copy; 2026 All Rights Reserved | 225 Reformation Pkwy, STE 204, Canton, GA 30114</div>
+  <div class="f-links">
+    <a href="#">Terms</a> -
+    <a href="#">Privacy</a> -
+    <a href="#">Support</a>
+  </div>
+  <p class="f-disclaimer">
+    <strong>*Earnings Disclaimer:</strong> Every online business is different, employing different strategic approaches and organizational structures, and offering different products and services. Therefore, individual results will vary from user to user. YOUR BUSINESS' INDIVIDUAL RESULTS WILL VARY DEPENDING UPON A VARIETY OF FACTORS UNIQUE TO YOUR BUSINESS, INCLUDING BUT NOT LIMITED TO YOUR CONTENT, BUSINESS MODEL, AND PRODUCT AND SERVICE OFFERINGS.
+  </p>
+  <p class="f-disclaimer" style="margin-top:12px">
+    'AI Challenge' is NOT a "get rich scheme." We do not make income claims and we cannot guarantee results. We believe in hard work, dedication, and the chance to learn the skill-set that can help you earn your first $1,000 online, which in turn, can help you create the career you want on your own terms, including all of the benefits that come with having your own online business. During the challenge, we will give you the tools, knowledge, and game-plan to follow that may help you, just like it has already helped many of our students. DO NOT join the 'AI Challenge' if you think you will have a thriving online business without putting in the time, work, and dedication required to make it happen.
+  </p>
+</footer>
+
+</div>
+
+<script>
+function handleVideoClick(){
+  var wrap = document.getElementById('videoWrap');
+  var frame = document.getElementById('videoFrame');
+  if(!wrap.classList.contains('playing')){
+    wrap.classList.add('playing');
+    frame.src = 'https://www.youtube.com/embed/VIDEO_ID?autoplay=1&rel=0';
+    frame.style.display = 'block';
+  }
+}
+// Add glitter shimmer to all CTA buttons
+document.querySelectorAll('.cta-g,.cta-full').forEach(function(btn){
+  var g1=document.createElement('span');g1.className='cta-glitter';
+  var g2=document.createElement('span');g2.className='cta-glitter-2';
+  btn.appendChild(g1);btn.appendChild(g2);
+});
+
+// ═══ CONFETTI ═══
+(function(){
+  var canvas=document.getElementById('confetti-canvas');
+  var ctx=canvas.getContext('2d');
+  var W,H;
+  var pieces=[];
+  var colors=['#E07A5F','#D4A853','#1D6B6B','#238787','#faf8f5','#C45D45','#F4FAFA'];
+  var total=120;
+  var gravity=0.35;
+  var drag=0.98;
+  var active=true;
+
+  function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}
+  resize();
+  window.addEventListener('resize',resize);
+
+  function rand(a,b){return Math.random()*(b-a)+a}
+
+  for(var i=0;i<total;i++){
+    pieces.push({
+      x:rand(0,W),
+      y:rand(-H*0.5,-20),
+      w:rand(6,12),
+      h:rand(4,8),
+      vx:rand(-3,3),
+      vy:rand(1,5),
+      rot:rand(0,360),
+      rv:rand(-6,6),
+      color:colors[Math.floor(Math.random()*colors.length)],
+      opacity:1,
+      shape:Math.random()>0.5?'rect':'circle'
+    });
+  }
+
+  function draw(){
+    if(!active)return;
+    ctx.clearRect(0,0,W,H);
+    var done=0;
+    for(var i=0;i<pieces.length;i++){
+      var p=pieces[i];
+      p.vy+=gravity;
+      p.vx*=drag;
+      p.x+=p.vx;
+      p.y+=p.vy;
+      p.rot+=p.rv;
+      // fade out when past 80% of screen
+      if(p.y>H*0.75) p.opacity=Math.max(0,p.opacity-0.02);
+      if(p.opacity<=0){done++;continue}
+      ctx.save();
+      ctx.translate(p.x,p.y);
+      ctx.rotate(p.rot*Math.PI/180);
+      ctx.globalAlpha=p.opacity;
+      ctx.fillStyle=p.color;
+      if(p.shape==='rect'){
+        ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
+      }else{
+        ctx.beginPath();
+        ctx.arc(0,0,p.w/2.5,0,Math.PI*2);
+        ctx.fill();
+      }
+      ctx.restore();
+    }
+    if(done>=pieces.length){
+      active=false;
+      canvas.style.display='none';
+      return;
+    }
+    requestAnimationFrame(draw);
+  }
+  // small delay so page renders first
+  setTimeout(draw,300);
+})();
+</script>
+</body>
+</html>
